@@ -6,7 +6,9 @@ import (
 	"learn/entity"
 	"learn/handler"
 	"learn/util"
+	"time"
 
+	"github.com/golang-jwt/jwt"
 	"gorm.io/gorm/clause"
 )
 
@@ -46,10 +48,15 @@ func main() {
 	updateObj["name"] = "haha"
 	db.Model(&project).Select([]string{"attribute", "name"}).Updates(updateObj)
 
-	secretBytes := []byte("asecretkeyhaha")
-	token, _ := util.SignWithClaims(secretBytes)
-	fmt.Printf("TOKEN = %s", token)
 	uById := entity.GetById(10)
+	secretBytes := []byte("asecretkeyhaha")
+	token, _ := util.SignWithClaims(entity.Claims{
+		UserID: uById.ID,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Minute * 100).Unix(),
+		},
+	}, secretBytes)
+	fmt.Printf("TOKEN = %s", token)
 	fmt.Printf("%+v", uById)
 
 	handler.Run(8266)

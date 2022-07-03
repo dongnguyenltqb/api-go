@@ -7,17 +7,25 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func UnAuthenticated(c *gin.Context) {
+	c.AbortWithStatusJSON(401, gin.H{
+		"success": false,
+		"message": "Unauthenticated.",
+	})
+}
+
 func BadRequest(c *gin.Context, err error) {
-	c.Header("Content-Type", "application/json")
-	c.JSON(400, gin.H{
+	c.AbortWithStatusJSON(400, gin.H{
 		"success": false,
 		"message": err.Error(),
 	})
 }
 
 func ResponseOK(c *gin.Context, response interface{}) {
-	c.Header("Content-Type", "application/json")
-	c.JSON(200, response)
+	c.JSON(200, gin.H{
+		"success": true,
+		"data":    response,
+	})
 }
 
 func Run(port int) error {
@@ -28,7 +36,7 @@ func Run(port int) error {
 	// group user
 	groupUser := r.Group("/users")
 	{
-		groupUser.POST("/me", Authenicated, Authenicated, createUserHandler)
+		groupUser.GET("/me", Authenicated, getMe)
 		groupUser.POST("/", createUserHandler)
 	}
 

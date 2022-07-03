@@ -24,3 +24,7 @@ func createUserHandler(c *gin.Context) {
 	})
 	ResponseOK(c, user)
 }
+
+func getMe(c *gin.Context) {
+	ResponseOK(c, c.Keys["user_id"])
+}
