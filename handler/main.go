@@ -7,31 +7,30 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type createUser struct {
-	Name string `json:"name,omitempty"`
-	Age  *int   `json:"age,omitempty"`
+func BadRequest(c *gin.Context, err error) {
+	c.Header("Content-Type", "application/json")
+	c.JSON(400, gin.H{
+		"success": false,
+		"message": err.Error(),
+	})
 }
 
-func createUserHandler(c *gin.Context) {
-	p := new(createUser)
-
-	if err := c.BindJSON(p); err != nil {
-		panic(err)
-	}
-	fmt.Printf("%+v", p)
-	// fmt.Printf("age = %d  , name = %s", *p.Age, p.Name)
-	c.JSON(200, p)
+func ResponseOK(c *gin.Context, response interface{}) {
+	c.Header("Content-Type", "application/json")
+	c.JSON(200, response)
 }
 
 func Run(port int) error {
-	// gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
+	r.GET("/", func(c *gin.Context) {
+		c.String(http.StatusOK, "welcome to my API")
 	})
-	r.POST("/me", Authenicated, Authenicated, createUserHandler)
+	// group user
+	groupUser := r.Group("/users")
+	{
+		groupUser.POST("/me", Authenicated, Authenicated, createUserHandler)
+		groupUser.POST("/", createUserHandler)
+	}
 
 	return r.Run(fmt.Sprintf(":%v", port))
 }
