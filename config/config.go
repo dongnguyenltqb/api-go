@@ -12,6 +12,13 @@ type Person struct {
 	Skill []string `yaml:"skills" json:"skill"`
 }
 
+var cfg *Config
+
+type Config struct {
+	DSN    string              `mapstructure:"db_dsn"`
+	Person []map[string]Person `mapstructure:"persons"`
+}
+
 func Load() {
 	fmt.Println("loading configuration....")
 	viper.SetConfigName("config") // name of config file (without extension)
@@ -22,9 +29,10 @@ func Load() {
 		panic(fmt.Errorf("fatal error config file: %w", err))
 	}
 	fmt.Println("loaded configuration")
-
+	cfg = new(Config)
+	viper.Unmarshal(cfg)
 }
 
-func Get() *viper.Viper {
-	return viper.GetViper()
+func Get() *Config {
+	return cfg
 }

@@ -14,7 +14,7 @@ var db *gorm.DB
 var onceInitDB sync.Once
 
 func GetDB() *gorm.DB {
-	dsn := config.Get().GetString("db_dsn")
+	dsn := config.Get().DSN
 	if dsn == "" {
 		panic(errors.New("db_dsn must be valid"))
 	}
