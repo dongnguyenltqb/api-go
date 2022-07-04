@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"learn/common"
+	"learn/config"
 	"learn/entity"
 	"learn/handler"
 	"learn/util"
@@ -11,6 +12,10 @@ import (
 	"github.com/golang-jwt/jwt"
 	"gorm.io/gorm/clause"
 )
+
+func init() {
+	config.Load()
+}
 
 func main() {
 	var db = common.GetDB()
