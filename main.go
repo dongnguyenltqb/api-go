@@ -29,7 +29,7 @@ func main() {
 	fmt.Printf("%+v", *user)
 	var project = &entity.Project{
 		Name:   &projectName,
-		UserId: user.ID,
+		UserId: &user.ID,
 		Attribute: &entity.ProjectAttribute{
 			Tag: util.Ref("car"),
 		},
