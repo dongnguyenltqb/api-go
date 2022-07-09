@@ -8,11 +8,11 @@ import (
 
 type User struct {
 	gorm.Model
-	ID       uint      `gorm:"column:id;primaryKey,autoIncrement,notNull" json:"id,omitempty"`
-	Name     *string   `gorm:"column:name" json:"name,omitempty"`
-	Email    string    `gorm:"column:email;not null" json:"email,omitempty"`
-	Age      int       `gorm:"notNull" json:"age"`
-	Projects []Project `json:"projects,omitempty" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	ID       uint      `gorm:"column:id;primaryKey,autoIncrement,notNull" json:"id,omitempty" mapstructure:"id"`
+	Name     *string   `gorm:"column:name" json:"name,omitempty" mapstructer:"name"`
+	Email    string    `gorm:"column:email;not null" json:"email,omitempty" mapstructer:"email"`
+	Age      int       `gorm:"notNull" json:"age" mapstructer:"age"`
+	Projects []Project `json:"projects,omitempty" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" mapstructer:"projects"`
 }
 
 func CreateUser(u *User) *User {

@@ -53,7 +53,7 @@ func main() {
 	updateObj["name"] = "haha"
 	db.Model(&project).Select([]string{"attribute", "name"}).Updates(updateObj)
 
-	uById := entity.GetById(10)
+	uById := entity.GetById(int(user.ID))
 	secretBytes := []byte("asecretkeyhaha")
 	token, _ := util.SignWithClaims(entity.Claims{
 		UserID: uById.ID,

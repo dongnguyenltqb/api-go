@@ -19,8 +19,9 @@ func createUserHandler(c *gin.Context) {
 		return
 	}
 	user := entity.CreateUser(&entity.User{
-		Name: p.Name,
-		Age:  p.Age,
+		Email: p.Email,
+		Name:  p.Name,
+		Age:   p.Age,
 	})
 	ResponseOK(c, user)
 }
