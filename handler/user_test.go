@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"learn/config"
 	"learn/entity"
 	"testing"
@@ -15,7 +16,7 @@ const BASE_URL = "http://localhost:1234"
 
 func TestCreateUser(t *testing.T) {
 	config.Load()
-	go Run(PORT)
+	svc := Run(PORT)
 	createObject := createUser{
 		Email: "nhnguhoc@gmail.com",
 		Age:   18,
@@ -29,4 +30,5 @@ func TestCreateUser(t *testing.T) {
 	assert.True(t, user.Email == createObject.Email)
 	assert.True(t, user.Age == createObject.Age)
 	assert.True(t, user.Name == nil, "name must be NIL")
+	svc.Shutdown(context.Background())
 }

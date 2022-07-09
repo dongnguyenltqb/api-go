@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Run(port int) error {
+func Run(port int) *http.Server {
 	r := gin.Default()
 	r.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "welcome to my API")
@@ -18,6 +18,14 @@ func Run(port int) error {
 		groupUser.GET("/me", Authenicated, getMe)
 		groupUser.POST("/", createUserHandler)
 	}
-
-	return r.Run(fmt.Sprintf(":%v", port))
+	srv := &http.Server{
+		Addr:    fmt.Sprintf(":%d", port),
+		Handler: r,
+	}
+	go func() {
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			panic(err)
+		}
+	}()
+	return srv
 }
