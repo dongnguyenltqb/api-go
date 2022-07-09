@@ -17,18 +17,28 @@ const BASE_URL = "http://localhost:1234"
 func TestCreateUser(t *testing.T) {
 	config.Load()
 	svc := Run(PORT)
+	defer svc.Shutdown(context.Background())
+
 	createObject := createUser{
 		Email: "nhnguhoc@gmail.com",
 		Age:   18,
 	}
 	response := new(APIResponse)
 	user := new(entity.User)
-
 	resty.New().R().SetBody(createObject).SetResult(response).Post(BASE_URL + "/api/users")
 	mapstructure.Decode(response.Data, user)
-	t.Logf("name: %+v", user)
 	assert.True(t, user.Email == createObject.Email)
 	assert.True(t, user.Age == createObject.Age)
 	assert.True(t, user.Name == nil, "name must be NIL")
-	svc.Shutdown(context.Background())
+}
+
+func TestGetMe(t *testing.T) {
+	config.Load()
+	svc := Run(PORT)
+	defer svc.Shutdown(context.Background())
+	response := new(APIResponse)
+	resty.New().R().SetResult(response).SetError(response).Get(BASE_URL + "/api/users/me")
+	assert.True(t, response.Success == false)
+	assert.True(t, response.Message == "Unauthenticated.")
+
 }
