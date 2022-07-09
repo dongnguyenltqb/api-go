@@ -26,6 +26,7 @@ func Load() {
 	viper.SetConfigType("yaml")   // REQUIRED if the config file does not have the extension in the name
 	viper.AddConfigPath(".")      // optionally look for config in the working directory
 	if os.Getenv("ENV") == "test" {
+		fmt.Println("adding test config path")
 		viper.AddConfigPath(os.Getenv("CONFIG_PATH"))
 	}
 	err := viper.ReadInConfig() // Find and read the config file

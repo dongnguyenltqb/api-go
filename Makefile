@@ -4,4 +4,4 @@ develop:
 	@air
 
 test:
-	@CONFIG_PATH=$${PWD} ENV=test go test handler/* -v
+	@CONFIG_PATH=$${PWD} ENV=test GIN_MODE=release go test handler/* -v
