@@ -25,6 +25,7 @@ type Config struct {
 func defaut() {
 	viper.SetDefault("port", 1234)
 	viper.SetDefault("gin_mode", "release")
+	viper.SetDefault("db_dsn", "host=localhost user=docker password=docker dbname=docker port=5433 sslmode=disable TimeZone=Asia/Ho_Chi_Minh")
 }
 
 func Load() {
@@ -32,13 +33,15 @@ func Load() {
 	defaut()
 
 	fmt.Println("loading configuration....")
-	viper.SetConfigName("config") // name of config file (without extension)
-	viper.SetConfigType("yaml")   // REQUIRED if the config file does not have the extension in the name
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
 
-	viper.AddConfigPath(".") // optionally look for config in the working directory
-	if os.Getenv("ENV") == "test" {
-		fmt.Println("adding test config path")
-		viper.AddConfigPath(os.Getenv("CONFIG_PATH"))
+	viper.AddConfigPath(".")
+
+	configPathEnv := os.Getenv("CONFIG_PATH")
+	if configPathEnv != "" {
+		fmt.Printf("adding config path: %s\n", configPathEnv)
+		viper.AddConfigPath(configPathEnv)
 	}
 
 	err := viper.ReadInConfig() // Find and read the config file
