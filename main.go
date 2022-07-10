@@ -18,6 +18,7 @@ func init() {
 }
 
 func main() {
+	alive := make(chan bool)
 	var db = common.GetDB()
 	db.AutoMigrate(&entity.User{})
 	db.AutoMigrate(&entity.Project{})
@@ -64,5 +65,6 @@ func main() {
 	fmt.Printf("TOKEN = %s", token)
 	fmt.Printf("%+v", uById)
 
-	handler.Run(8266)
+	handler.Run(config.Get().Port)
+	<-alive
 }
