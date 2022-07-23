@@ -20,7 +20,7 @@ type Project struct {
 	User      *User             `gorm:"foreignKey:user_id"`
 }
 
-// value là data từ database, func này lấy giá trị từ value và gắn vào attr
+// Value is come from database, need to deserialize to attr which is a field from model
 func (attr *ProjectAttribute) Scan(value interface{}) error {
 	if attr != nil {
 		var result ProjectAttribute
@@ -31,8 +31,7 @@ func (attr *ProjectAttribute) Scan(value interface{}) error {
 	return nil
 }
 
-// generate giá trị từ struct để đẩy vào db
-// với struct thì định dạng là []byte
+// Generate value from attr to save to database
 func (attr *ProjectAttribute) Value() (driver.Value, error) {
 	if attr == nil {
 		return nil, nil

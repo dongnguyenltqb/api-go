@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: docker
+      POSTGRES_DB: docker
+    ports:
+      - 5432:5432
+
+networks:
+  postgres:
+    driver: bdrige
+
+volumes:
+  postgres:

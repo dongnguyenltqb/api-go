@@ -25,7 +25,7 @@ type Config struct {
 func defaut() {
 	viper.SetDefault("port", 1234)
 	viper.SetDefault("gin_mode", "release")
-	viper.SetDefault("db_dsn", "host=localhost user=docker password=docker dbname=docker port=5433 sslmode=disable TimeZone=Asia/Ho_Chi_Minh")
+	viper.SetDefault("db_dsn", "host=localhost user=docker password=docker dbname=docker port=5432 sslmode=disable TimeZone=Asia/Ho_Chi_Minh")
 }
 
 func Load() {

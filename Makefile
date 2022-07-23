@@ -1,7 +1,9 @@
+# Install air 
+# go install github.com/cosmtrek/air@latest; fi;
+
 default: develop
 
 develop:
-	@if ![[ command -v air ]]; then go install github.com/cosmtrek/air@latest; fi;
 	@air
 
 test:
