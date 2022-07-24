@@ -24,15 +24,14 @@ func Run(port int) *http.Server {
 		MaxAge: 0,
 	}))
 
-	r.GET("/", func(c *gin.Context) {
+	GET("/", r.Group("/"), func(c *gin.Context) {
 		c.String(http.StatusOK, "welcome to my API")
 	})
 	// group user
 	groupUser := r.Group("/api/users")
-	{
-		groupUser.GET("/me", Authenicated, getMe)
-		groupUser.POST("/", createUserHandler)
-	}
+	GET("/me", groupUser, Authenicated, getMe)
+	POST("/", groupUser, createUserHandler)
+
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", port),
 		Handler: r,

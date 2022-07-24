@@ -28,3 +28,19 @@ type APIResponse struct {
 	Message string      `json:"message,omitempty"`
 	Data    interface{} `json:"data"`
 }
+
+func GET(path string, group *gin.RouterGroup, funcs ...gin.HandlerFunc) {
+	group.GET(path, funcs...)
+}
+
+func POST(path string, group *gin.RouterGroup, funcs ...gin.HandlerFunc) {
+	group.POST(path, funcs...)
+}
+
+func PUT(path string, group *gin.RouterGroup, funcs ...gin.HandlerFunc) {
+	group.PUT(path, funcs...)
+}
+
+func DELETE(path string, group *gin.RouterGroup, funcs ...gin.HandlerFunc) {
+	group.DELETE(path, funcs...)
+}
